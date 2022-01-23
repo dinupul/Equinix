@@ -23,7 +23,7 @@ public class ElementUtil {
         for (Map.Entry<String, ArrayList<String>> entry : details.entrySet()) {
             String key = entry.getKey();
             ArrayList value = entry.getValue();
-            alldetails += "Celebrity Name:" + key + " " + "" + value + "";
+            alldetails += "Celebrity Name:" + key + " " + "" + value + "\n";
         }
         return alldetails;
     }
@@ -47,7 +47,7 @@ public class ElementUtil {
 
 
             if (webelement.size() == 0) {
-                spouseDetails = "Spouse details unavailables";
+                spouseDetails = "Spouse details unavailable";
 
             } else {
                 spouseDetails = driver.findElement(xp2).getText().trim();

@@ -49,6 +49,6 @@ public class Search {
 
     @Then("user write extracted data in logs")
     public void userWriteExtractedDataInLogs() {
-        spouseDOB.forEach((key, value) -> log.info(key + ", " + value));
+        spouseDOB.forEach((key, value) -> log.info(key + ", " + value +"\n"));
     }
 }
