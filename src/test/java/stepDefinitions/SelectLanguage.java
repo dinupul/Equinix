@@ -27,6 +27,7 @@ public class SelectLanguage {
     public void userIsAlreadyAvailableOnWikipediaMainPage() {
         String url = prop.getProperty("URL");
         getDriver().get(url);
+        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(mainPage.simpleSearch)));
     }
 
     @When("User get the title of the home page")

@@ -1,10 +1,12 @@
 package factory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+@Slf4j
 public class DriverFactory {
 
     public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
@@ -21,7 +23,7 @@ public class DriverFactory {
             WebDriverManager.firefoxdriver().setup();
             threadLocalDriver.set(new FirefoxDriver());
         } else {
-            System.out.println("Please pass a correct browser value " + browser);
+            log.error("Please pass a correct browser value " + browser);
         }
 
         getDriver().manage().window().maximize();
