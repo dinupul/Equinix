@@ -12,7 +12,7 @@ public class ConfigReader {
      * This method is used to load properties from config.properties file
      * @return Properties
      */
-    public Properties initprop(){
+    public Properties initProp(){
         prop = new Properties();
         try {
             FileInputStream filein = new FileInputStream("src/test/resources/config/config.properties");

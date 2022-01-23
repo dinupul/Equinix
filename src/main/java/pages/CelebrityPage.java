@@ -2,12 +2,8 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import utils.ElementUtil;
-
-import java.util.PrimitiveIterator;
 
 import static utils.ElementUtil.extractSpouseDetails;
-
 
 public class CelebrityPage {
 
@@ -16,8 +12,8 @@ public class CelebrityPage {
 
     //By locator
     public By dob = By.xpath("//th[text()='Born']//following::td[1]");
-    private By spouse1 = By.xpath("//span[text()='Spouse(s)']//following::td[1]");
-    private By spouse2 = By.xpath("//th[text()='Spouse(s)']//following::td[1]");
+    public By spouse1 = By.xpath("//span[text()='Spouse(s)']//following::td[1]");
+    public By spouse2 = By.xpath("//th[text()='Spouse(s)']//following::td[1]");
 
     //constructor
     public CelebrityPage(WebDriver driver) {
@@ -30,16 +26,12 @@ public class CelebrityPage {
         return title.contains(text);
     }
 
-    public String getSpouseDetails(){
-        return extractSpouseDetails(spouse1,spouse2,driver);
+    public String getSpouseDetails() {
+        return extractSpouseDetails(spouse1, spouse2, driver);
     }
 
-    public String getDOB(){
-        return driver.findElement(dob).getText().trim();
-    }
-
-    public String[][] objectcatcher(String[][] object){
-        return object;
+    public String getDOB() {
+        return driver.findElement(dob).getText();
     }
 
 }

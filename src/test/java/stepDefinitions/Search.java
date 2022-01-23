@@ -1,56 +1,54 @@
 package stepDefinitions;
 
-import factory.DriverFactory;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.CelebrityPage;
 import pages.MainPage;
-import utils.ConfigReader;
-import utils.ExcelReader;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
+import java.util.Map;
 
-import static utils.ElementUtil.trimDob;
+import static factory.DriverFactory.getDriver;
+import static utils.ElementUtil.editDob;
+import static utils.ElementUtil.wait;
 
 @Slf4j
 public class Search {
-    private ConfigReader configReader = new ConfigReader();
-    private Properties prop = configReader.initprop();
-    private ExcelReader excel = new ExcelReader();
-    private CelebrityPage celebrityPage = new CelebrityPage(DriverFactory.getDriver());
-    private MainPage mainPage = new MainPage(DriverFactory.getDriver());
+    public static Map<String, ArrayList<String>> spouseDOB = new HashMap<>();
+    private CelebrityPage celebrityPage = new CelebrityPage(getDriver());
+    private MainPage mainPage = new MainPage(getDriver());
 
     @And("User verify simple searchbar is present")
     public void userVerifySimpleSearchbarIsPresent() {
         Assert.assertTrue(mainPage.verifySimpleSearchExist());
     }
 
-    @And("User search a celebrity name in and extract the data")
-    public void userSearchACelebrityNameInAndExtractTheData(DataTable dataTable) throws IOException {
-        String[] data = excel.readExcelSingleColumn();
-        String[][] extractedData = new String[data.length][2];
+    @And("User search a celebrity name and extract the data")
+    public void userSearchACelebrityNameAndExtractTheData(DataTable dataTable) {
         List<String> names = dataTable.asList(String.class);
 
         for (String name : names) {
-            DriverFactory.getDriver().findElement(mainPage.simpleSearch).click();
+            mainPage.clickSearch();
             mainPage.typeName(name);
             mainPage.pressEnter();
-            DriverFactory.getDriver().findElement(mainPage.simpleSearch).click();
+            wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(celebrityPage.dob)));
             Assert.assertTrue(celebrityPage.getCelebrityPageTitle(name));
 
-            log.info(trimDob(name + " DOB: " + celebrityPage.getDOB().trim()));
-            log.info(name + " Spouse: " + celebrityPage.getSpouseDetails().trim());
-            celebrityPage.objectcatcher(extractedData);
+            spouseDOB.put(name, new ArrayList<>());
+            spouseDOB.get(name).add(editDob(" DOB: " + celebrityPage.getDOB().trim()));
+            spouseDOB.get(name).add(" Spouse: " + celebrityPage.getSpouseDetails().trim());
         }
 
     }
 
     @Then("user write extracted data in logs")
     public void userWriteExtractedDataInLogs() {
+        spouseDOB.forEach((key, value) -> log.info(key + ", " + value));
     }
 }

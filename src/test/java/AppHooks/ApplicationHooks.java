@@ -10,17 +10,19 @@ import org.openqa.selenium.WebDriver;
 import utils.ConfigReader;
 
 import java.util.Properties;
+import static stepDefinitions.Search.spouseDOB;
+import static utils.ElementUtil.reportlogs;
 
 public class ApplicationHooks {
     private DriverFactory driverFactory;
     private WebDriver driver;
     private ConfigReader configReader;
-    Properties prop;
+    private Properties prop;
 
     @Before(order = 0)
     public void getproperty() {
         configReader = new ConfigReader();
-        prop = configReader.initprop();
+        prop = configReader.initProp();
     }
 
     @Before(order = 1)
@@ -32,6 +34,7 @@ public class ApplicationHooks {
 
     @After(order = 0)
     public void quitBrowser() {
+        driver.manage().deleteAllCookies();
         driver.close();
     }
 
@@ -45,4 +48,12 @@ public class ApplicationHooks {
         }
     }
 
+    @After(order = 2)
+    public void addLogs(Scenario sc) {
+        if (sc.getName().equals("Extract DOB and Spouse Details")) {
+            String details = reportlogs(spouseDOB);
+            sc.log(details);
+        }
+
+    }
 }

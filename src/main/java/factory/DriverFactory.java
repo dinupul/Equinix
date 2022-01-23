@@ -6,13 +6,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
-    public WebDriver driver;
 
     public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
 
     /**
      * This method is used to initialize the driver on the basis of given browser
-     *
      * @param browser
      */
     public WebDriver initDriver(String browser) {
@@ -23,7 +21,7 @@ public class DriverFactory {
             WebDriverManager.firefoxdriver().setup();
             threadLocalDriver.set(new FirefoxDriver());
         } else {
-            System.out.println("Please pass the correct browser value " + browser);
+            System.out.println("Please pass a correct browser value " + browser);
         }
 
         getDriver().manage().window().maximize();

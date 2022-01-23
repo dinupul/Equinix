@@ -6,7 +6,7 @@ Feature: Wikipedia Celebrity Search
     When User get the title of the home page
     Then Title of the main page contains "Wikipedia, the free encyclopedia"
     And User verify simple searchbar is present
-    And User search a celebrity name in and extract the data
+    And User search a celebrity name and extract the data
       |Tom Hanks|
       |Will Smith|
       |Jackie Chan|
